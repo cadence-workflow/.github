@@ -29,7 +29,7 @@ This organization hosts the following repositories:
 
 ## Getting Started
 ### Install Cadence
-To get started with Cadence, visit the [installation guide](https://cadenceworkflow.io/docs/get-started/installation/).
+To get started with Cadence, visit the [installation guide](https://cadenceworkflow.io/docs/get-started/server-installation).
 
 ### Learn Cadence
 Explore the [Cadence documentation](https://cadenceworkflow.io/docs/get-started/) to learn how to create workflows, write activities, and deploy your applications.
