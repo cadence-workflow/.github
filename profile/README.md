@@ -45,8 +45,15 @@ Cadence is trusted by organizations like Uber, DoorDash, and Coinbase for its:
 - Rich feature set for building robust distributed systems.
 - Active open-source community.
 
+## Organization
+- [Maintainers & TSC](https://cadenceworkflow.io/community/team)
+- [Governance](https://cadenceworkflow.io/community/governance)
+- [Support](https://cadenceworkflow.io/community/support)
+- [Join our Slack Workspace](https://uber-cadence.slack.com)
+- [Code of Conduct](https://github.com/uber/.github/blob/dcd96c52f2d1d839208315a2572cf37f48e52e96/CODE_OF_CONDUCT.md)
+
 ## License
-Cadence is licensed under the [MIT License](https://github.com/cadence-workflow/cadence/blob/master/LICENSE), making it free and open-source for everyone.
+Cadence is licensed under the [Apache 2.0 License](https://github.com/cadence-workflow/cadence/blob/master/LICENSE), making it free and open-source for everyone.
 
 ---
 Thank you for being part of the Cadence community. Let’s build scalable, fault-tolerant applications together!
