@@ -1,4 +1,5 @@
 # Welcome to Cadence Workflow
+[![LFX Health Score](https://insights.linuxfoundation.org/api/badge/health-score?project=cadence)](https://insights.linuxfoundation.org/project/cadence) [![LFX Active Contributors](https://insights.linuxfoundation.org/api/badge/active-contributors?project=cadence)](https://insights.linuxfoundation.org/project/cadence)
 
 ## About the Organization
 **Cadence Workflow** is an open-source platform since 2017 for building and running scalable, fault-tolerant, and long-running workflows. Originally developed by Uber, Cadence is now adopted by many organizations worldwide for orchestrating complex distributed applications. This GitHub organization consolidates all Cadence-related projects under one umbrella, making it easier for developers to access the tools, resources, and community support they need to succeed.
