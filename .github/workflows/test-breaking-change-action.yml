@@ -1,0 +1,25 @@
+# Runs the breaking-change action's unit tests and shellcheck on every PR that
+# touches the action. Without this the check.sh/check_test.bats suite would
+# never actually execute.
+name: Test breaking-change action
+
+on:
+  pull_request:
+    paths:
+      - actions/breaking-change/**
+      - .github/workflows/test-breaking-change-action.yml
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bats and shellcheck
+        run: sudo apt-get update && sudo apt-get install -y bats shellcheck
+      - name: shellcheck
+        run: shellcheck actions/breaking-change/check.sh
+      - name: bats
+        run: bats actions/breaking-change/check_test.bats

@@ -1,0 +1,78 @@
+# Breaking-change PR reminder, as a composite action so repos share one
+# implementation instead of copy-pasting the workflow + template.
+#
+# A PR is treated as breaking if EITHER:
+#   - its title carries the Conventional Commits '!' marker (e.g. feat(x)!: ...), or
+#   - it changes any caller-supplied watched-path glob.
+# When breaking, the PR body must contain the checklist sections; otherwise the
+# step fails and prints the canonical template to copy.
+#
+# Caller example (.github/workflows/breaking_change_reminder.yml in a repo):
+#
+#   name: Breaking Change Reminder
+#   on:
+#     pull_request:
+#       types: [opened, edited, synchronize, reopened]
+#   jobs:
+#     breaking-change:
+#       runs-on: ubuntu-latest
+#       permissions:
+#         contents: read
+#         pull-requests: read
+#       steps:
+#         # Required when passing `paths`: fetch-depth: 0 is mandatory. The
+#         # merge-base diff needs full history, and the default shallow checkout
+#         # (depth 1) makes it fail. Also needed to read a `template-path`.
+#         - uses: actions/checkout@v4
+#           with:
+#             fetch-depth: 0
+#         - uses: cadence-workflow/.github/actions/breaking-change@v1
+#           with:
+#             paths: |
+#               schema/**
+#               client/**/interface.go
+#             template-path: .github/workflows/breaking_change_pr_template.md
+name: Breaking Change Reminder
+description: >-
+  Require the breaking-change checklist in a PR body when the PR is breaking:
+  either its title carries the Conventional Commits '!' marker or it changes a
+  watched path.
+
+inputs:
+  paths:
+    description: >-
+      One glob per line. If the PR changes any matching file it is treated as
+      breaking. Leave empty to rely only on the '!' title marker. If set, the
+      caller MUST check out with fetch-depth: 0 first. The merge-base diff
+      needs full history and a shallow checkout will fail.
+    required: false
+    default: ""
+  checklist:
+    description: Comma-separated PR-body section headings that must be present.
+    required: false
+    default: "Detailed Description,Impact Analysis,Testing Plan,Rollout Plan"
+  template-path:
+    description: >-
+      Path in the caller repo to the canonical reminder template. Falls back to
+      a built-in copy when empty or missing.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Require breaking-change checklist
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        # In a composite action github.repository is the caller repo, so gh
+        # resolves the PR without needing a checked-out remote.
+        GH_REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        WATCH_PATHS: ${{ inputs.paths }}
+        CHECKLIST: ${{ inputs.checklist }}
+        TEMPLATE_PATH: ${{ inputs.template-path }}
+      run: "${{ github.action_path }}/check.sh"
